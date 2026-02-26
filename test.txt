@@ -4,4 +4,8 @@ hola!
 
 hello world!
 
+<<<<<<< HEAD
 hi
+=======
+This is the final countdown!
+>>>>>>> Development
