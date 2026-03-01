@@ -12,8 +12,9 @@ func Draw():
 func Update(_delta):
 	Player.HandleGravity(_delta,Player.GRAVITYFALL)
 	Player.HorizontalMovement()
-	Player.velocity.x *= Player.AIRMOVESPEEDMULT
+	#Player.velocity.x *= Player.AIRMOVESPEEDMULT
 	Player.HandleLanding()
+	Player.HandleWallJump()
 	Player.HandleJumping()
 	Player.HandleJumpBuffer()
 	HandleAnimations()

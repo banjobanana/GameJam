@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d01t6d7gu5yrp"]
+[gd_scene load_steps=35 format=3 uid="uid://d01t6d7gu5yrp"]
 
 [ext_resource type="Texture2D" uid="uid://dhv21cnwh8y4b" path="res://Assets/Character base.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dcxkn0eh6rrtu" path="res://Scritps/player.gd" id="1_onrkg"]
@@ -9,6 +9,16 @@
 [ext_resource type="Script" uid="uid://bysuikivgfwxt" path="res://States/JumpState.gd" id="7_3smsa"]
 [ext_resource type="Script" uid="uid://beiqu4o7cs886" path="res://States/JumpPeakState.gd" id="8_8erm5"]
 [ext_resource type="Script" uid="uid://vvpi5bakvxb0" path="res://States/FallState.gd" id="9_f1ek2"]
+[ext_resource type="Script" uid="uid://450ng7h7sogj" path="res://States/WallJumpState.gd" id="10_tx1dd"]
+[ext_resource type="Script" uid="uid://cu77dp0u4o4u5" path="res://States/WallClingState.gd" id="11_gymyn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
+atlas = ExtResource("1_4flbx")
+region = Rect2(0, 320, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
+atlas = ExtResource("1_4flbx")
+region = Rect2(0, 352, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pylmc"]
 atlas = ExtResource("1_4flbx")
@@ -90,6 +100,22 @@ region = Rect2(32, 96, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_tx1dd")
+}],
+"loop": true,
+"name": &"WallCling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gymyn")
+}],
+"loop": true,
+"name": &"WallJump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_pylmc")
 }],
 "loop": true,
@@ -167,18 +193,18 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n7ghd"]
-size = Vector2(11, 21)
+size = Vector2(8, 21)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_onrkg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_b26j0")
-animation = &"idle"
+animation = &"WallJump"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4.5)
+position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_n7ghd")
 
 [node name="Statemachine" type="Node" parent="."]
@@ -202,6 +228,12 @@ script = ExtResource("8_8erm5")
 [node name="Fall" type="Node" parent="Statemachine"]
 script = ExtResource("9_f1ek2")
 
+[node name="WallJump" type="Node" parent="Statemachine"]
+script = ExtResource("10_tx1dd")
+
+[node name="WallCling" type="Node" parent="Statemachine"]
+script = ExtResource("11_gymyn")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
 
@@ -211,3 +243,11 @@ one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+position = Vector2(4, 13)
+target_position = Vector2(4, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+position = Vector2(-4, 13)
+target_position = Vector2(-4, 0)

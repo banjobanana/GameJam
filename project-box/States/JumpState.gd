@@ -13,13 +13,15 @@ func Draw():
 func Update(_delta):
 	Player.HandleGravity(_delta)
 	Player.HorizontalMovement()
-	Player.velocity.x *= Player.AIRMOVESPEEDMULT
+	#Player.velocity.x *= Player.AIRMOVESPEEDMULT
+	Player.HandleWallJump()
 	HandleJumpToFall()
 	HandleAnimations()
 
 func HandleJumpToFall():
 	if Player.velocity.y >= 0:
 		Player.ChangeState(States.Fall)
+	#variable jump height
 	if !Player.keyJump:
 		#print(Player.keyJump)
 		Player.velocity.y *= Player.VARIABLEJUMPMULTIPLIER 

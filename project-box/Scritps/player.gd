@@ -3,24 +3,37 @@ class_name player_class extends CharacterBody2D
 
 #constants
 const RUNSPEED = 150.0
+const GROUNDACCELARATION = 40
+const GROUNDDECELARATION = 20
+const AIRACCELARATION = 15
+const AIRDECELARATION = 20
+const AIRMOVESPEEDMULT = 0.6
+
 const JUMPVELOCITY = -140
 const GRAVITYJUMP = 290
-const GRAVITYFALL = 500
-const MAXFALLVELOCITY = 300
-const ACCELARATION = 40
-const DECELARATION = 20
 const MAXJUMPS=1
 const VARIABLEJUMPMULTIPLIER = 0.5
-const AIRMOVESPEEDMULT = 0.6
+const GRAVITYFALL = 500
+const MAXFALLVELOCITY = 300
+
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
 const COYOTETIME = 0.1 #6 frames
 
+const WALLKICKACCELARATION = 4
+const WALLKICKDECELARATION = 5
+const WALLJUMPYSPEEDPEAK = 0
+const WALLJUMPVELOCITY = -190
+const WALLJUMPHSPEED = 120
+const WALLCLINGSPEEDMULT = 0.9
 #variables
+var Accelaration = GROUNDACCELARATION
+var Decelaration = GROUNDDECELARATION
 var moveSpeed=RUNSPEED
 var jumpSpeed=JUMPVELOCITY
 var moveDirectionX=0
 var jumps=0 #number of jumps done
 var facing=1
+var wallDirection = Vector2.ZERO
 
 #input variables
 var keyUp=false
@@ -37,6 +50,8 @@ var keyJumpPressed=false
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var jump_buffer: Timer = $JumpBuffer
 @onready var coyote_timer: Timer = $CoyoteTimer
+@onready var ray_cast_right: RayCast2D = $RayCastRight
+@onready var ray_cast_left: RayCast2D = $RayCastLeft
 
 #StateMachine
 var currentState = null
@@ -59,7 +74,9 @@ func _physics_process(delta: float) -> void:
 	get_input_states()
 	currentState.Update(delta)
 	#movement
+	HandleWallCling()
 	HandleMaxFallVelocity()
+	GetWallDirection()
 	HorizontalMovement()
 	HandleJumping()
 	move_and_slide()
@@ -70,8 +87,16 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		#print("State change from "+previousState.Name+" to "+newState.Name)
+		print("State change from "+previousState.Name+" to "+newState.Name)
 		return
+
+func GetWallDirection():
+	if ray_cast_right.is_colliding():
+		wallDirection = Vector2.RIGHT
+	elif ray_cast_left.is_colliding():
+		wallDirection = Vector2.LEFT
+	else:
+		wallDirection=Vector2.ZERO
 
 func get_input_states():
 	keyUp = Input.is_action_pressed("Up")
@@ -84,7 +109,7 @@ func get_input_states():
 	if keyRight: facing=1
 	if keyLeft: facing=-1
 
-func HorizontalMovement(accelaration: float = ACCELARATION, decelaration: float = DECELARATION):
+func HorizontalMovement(accelaration: float = Accelaration, decelaration: float = Decelaration):
 	moveDirectionX = Input.get_axis("Left","Right")
 	#if currentState == States.Jump or currentState == States.Fall:
 		#moveSpeed/=2
@@ -106,6 +131,25 @@ func HandleLanding():
 	if is_on_floor():
 		jumps=0
 		ChangeState(States.Idle)
+
+func HandleWallJump():
+	GetWallDirection()
+	if ((keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!= Vector2.ZERO):
+		print("walljump")
+		#ChangeState(States.WallJump)
+
+func HandleWallCling():
+	if (not is_on_floor()) and wallDirection!=Vector2.ZERO:
+		if wallDirection == Vector2.RIGHT:
+			if keyRight:
+				#print("Cl;ing")
+				ChangeState(States.WallCling)
+		elif wallDirection == Vector2.LEFT:
+			if moveDirectionX<0:
+				ChangeState(States.WallCling)
+		else:
+			if moveDirectionX==0:
+				ChangeState(States.Fall)
 
 func HandleJumping():
 	if is_on_floor():

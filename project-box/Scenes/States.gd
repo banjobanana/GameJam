@@ -6,3 +6,5 @@ class_name states_class extends Node
 @onready var Jump = $Jump
 @onready var JumpPeak = $JumpPeak
 @onready var Fall  = $Fall
+@onready var WallCling: = $WallCling
+@onready var  WallJump = $WallJump
