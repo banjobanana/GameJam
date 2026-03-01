@@ -3,13 +3,18 @@ class_name player_class extends CharacterBody2D
 
 #constants
 const RUNSPEED = 150.0
-const JUMPVELOCITY = -200.0
-const GRAVITY = 300
+const JUMPVELOCITY = -140
+const GRAVITYJUMP = 290
+const GRAVITYFALL = 500
+const MAXFALLVELOCITY = 300
 const ACCELARATION = 40
+const DECELARATION = 20
 const MAXJUMPS=1
-
+const VARIABLEJUMPMULTIPLIER = 0.5
+const AIRMOVESPEEDMULT = 0.6
 #variables
 var moveSpeed=RUNSPEED
+var jumpSpeed=JUMPVELOCITY
 var moveDirectionX=0
 var jumps=0 #number of jumps done
 var facing=1
@@ -45,10 +50,9 @@ func _draw():
 
 func _physics_process(delta: float) -> void:
 	get_input_states()
-	
 	currentState.Update(delta)
 	#movement
-	HandleGravity(delta)
+	HandleMaxFallVelocity()
 	HorizontalMovement()
 	HandleJumping()
 	
@@ -60,7 +64,8 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		print("State change from "+previousState.Name+" to "+newState.Name)
+		#print("State change from "+previousState.Name+" to "+newState.Name)
+		return
 
 func get_input_states():
 	keyUp = Input.is_action_pressed("Up")
@@ -73,13 +78,22 @@ func get_input_states():
 	if keyRight: facing=1
 	if keyLeft: facing=-1
 
-func HorizontalMovement():
+func HorizontalMovement(accelaration: float = ACCELARATION, decelaration: float = DECELARATION):
 	moveDirectionX = Input.get_axis("Left","Right")
-	velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,ACCELARATION)
+	#if currentState == States.Jump or currentState == States.Fall:
+		#moveSpeed/=2
+	if moveDirectionX != 0: 
+		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,accelaration)
+		print(moveSpeed)
+	else:
+		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,decelaration)
 
 func HandleFalling():
 	if not is_on_floor():
 		ChangeState(States.Fall)
+
+func HandleMaxFallVelocity():
+		if(velocity.y>MAXFALLVELOCITY): velocity.y=MAXFALLVELOCITY
 
 func HandleLanding():
 	if is_on_floor():
@@ -88,24 +102,13 @@ func HandleLanding():
 
 func HandleJumping():
 	if keyJumpPressed and jumps<MAXJUMPS:
-		velocity.y=JUMPVELOCITY
+		ChangeState(States.Jump)
 		jumps+=1
 
-func HandleGravity(delta, gravity:float=GRAVITY):
+func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 	#gravity
 	if not is_on_floor():
 		velocity.y+=gravity*delta
-
-	if is_on_floor():
-		if velocity.x != 0:
-			animated_sprite_2d.play("run")
-		else:
-			animated_sprite_2d.play("idle")
-	else:
-		if velocity.y < 0:
-			animated_sprite_2d.play("jump")
-		else:
-			animated_sprite_2d.play("fall")
 
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)

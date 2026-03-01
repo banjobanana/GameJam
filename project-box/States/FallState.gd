@@ -10,8 +10,9 @@ func Draw():
 	pass
 
 func Update(_delta):
-	Player.HandleGravity(_delta)
+	Player.HandleGravity(_delta,Player.GRAVITYFALL)
 	Player.HorizontalMovement()
+	Player.velocity.x *= Player.AIRMOVESPEEDMULT
 	Player.HandleLanding()
 	HandleAnimations()
 
