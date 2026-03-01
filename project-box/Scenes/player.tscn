@@ -209,4 +209,5 @@ zoom = Vector2(5, 5)
 wait_time = 10.0
 one_shot = true
 
-[connection signal="timeout" from="JumpBuffer" to="." method="_on_jump_buffer_timeout"]
+[node name="CoyoteTimer" type="Timer" parent="."]
+one_shot = true

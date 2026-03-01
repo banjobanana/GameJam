@@ -12,7 +12,8 @@ const DECELARATION = 20
 const MAXJUMPS=1
 const VARIABLEJUMPMULTIPLIER = 0.5
 const AIRMOVESPEEDMULT = 0.6
-const JUMPBUFFERTIME = 0.15 #9 frames
+const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
+const COYOTETIME = 0.1 #6 frames
 
 #variables
 var moveSpeed=RUNSPEED
@@ -35,6 +36,7 @@ var keyJumpPressed=false
 @onready var States = $Statemachine
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var jump_buffer: Timer = $JumpBuffer
+@onready var coyote_timer: Timer = $CoyoteTimer
 
 #StateMachine
 var currentState = null
@@ -94,6 +96,7 @@ func HorizontalMovement(accelaration: float = ACCELARATION, decelaration: float 
 
 func HandleFalling():
 	if not is_on_floor():
+		coyote_timer.start(COYOTETIME)
 		ChangeState(States.Fall)
 
 func HandleMaxFallVelocity():
@@ -105,10 +108,23 @@ func HandleLanding():
 		ChangeState(States.Idle)
 
 func HandleJumping():
-	if ((keyJumpPressed or jump_buffer.time_left > 0) and jumps<MAXJUMPS):
-		ChangeState(States.Jump)
-		jumps+=1
-		jump_buffer.stop()
+	if is_on_floor():
+		if jumps<MAXJUMPS:
+			#normal jumping
+			if keyJumpPressed or jump_buffer.time_left > 0:
+				jumps+=1
+				jump_buffer.stop()
+				ChangeState(States.Jump)
+	else:
+		#double jump
+		if jumps < MAXJUMPS and jumps > 0 and keyJumpPressed:
+			jumps+=1
+			ChangeState(States.Jump)
+		#coyote time
+		if coyote_timer.time_left > 0 and keyJumpPressed and jumps<MAXJUMPS:
+			coyote_timer.stop()
+			jumps+=1
+			ChangeState(States.Jump)
 
 func HandleJumpBuffer():
 	if keyJumpPressed:
@@ -121,7 +137,3 @@ func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)
-
-
-func _on_jump_buffer_timeout() -> void:
-	print("TimerEnded") # Replace with function body.
