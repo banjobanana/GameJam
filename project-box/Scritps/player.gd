@@ -87,7 +87,7 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		print("State change from "+previousState.Name+" to "+newState.Name)
+		#print("State change from "+previousState.Name+" to "+newState.Name)
 		return
 
 func GetWallDirection():
@@ -134,25 +134,27 @@ func HandleLanding():
 
 func HandleWallJump():
 	GetWallDirection()
-	if ((keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!= Vector2.ZERO):
-		print("walljump")
+	#if ((keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!= Vector2.ZERO):
 		#ChangeState(States.WallJump)
+		#print("walljump")
 
 func HandleWallCling():
 	if (not is_on_floor()) and wallDirection!=Vector2.ZERO:
 		if wallDirection == Vector2.RIGHT:
 			if keyRight:
 				#print("Cl;ing")
+				jumps=0
 				ChangeState(States.WallCling)
 		elif wallDirection == Vector2.LEFT:
-			if moveDirectionX<0:
+			if keyLeft:
+				jumps=0
 				ChangeState(States.WallCling)
 		else:
 			if moveDirectionX==0:
 				ChangeState(States.Fall)
 
 func HandleJumping():
-	if is_on_floor():
+	if is_on_floor() or currentState==States.WallCling:
 		if jumps<MAXJUMPS:
 			#normal jumping
 			if keyJumpPressed or jump_buffer.time_left > 0:

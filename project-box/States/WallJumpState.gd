@@ -1,7 +1,8 @@
 extends PlayerState
 
 func EnterState():
-	pass
+	Name="WallJump"
+	#Player.velocity.y = Player.WALLJUMPVELOCITY
 
 func ExitState():
 	pass
