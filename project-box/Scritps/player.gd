@@ -12,6 +12,8 @@ const DECELARATION = 20
 const MAXJUMPS=1
 const VARIABLEJUMPMULTIPLIER = 0.5
 const AIRMOVESPEEDMULT = 0.6
+const JUMPBUFFERTIME = 0.15 #9 frames
+
 #variables
 var moveSpeed=RUNSPEED
 var jumpSpeed=JUMPVELOCITY
@@ -26,17 +28,20 @@ var keyLeft =false
 var keyRight=false
 var keyJump=false
 var keyJumpPressed=false
+
 #nodes
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var States = $Statemachine
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var jump_buffer: Timer = $JumpBuffer
 
 #StateMachine
 var currentState = null
 var previousState = null
 
 #endregion
+
 
 func _ready():
 	for state in States.get_children():
@@ -55,7 +60,6 @@ func _physics_process(delta: float) -> void:
 	HandleMaxFallVelocity()
 	HorizontalMovement()
 	HandleJumping()
-	
 	move_and_slide()
 
 func ChangeState(newState):
@@ -84,7 +88,7 @@ func HorizontalMovement(accelaration: float = ACCELARATION, decelaration: float 
 		#moveSpeed/=2
 	if moveDirectionX != 0: 
 		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,accelaration)
-		print(moveSpeed)
+		#print(moveSpeed)
 	else:
 		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,decelaration)
 
@@ -101,9 +105,14 @@ func HandleLanding():
 		ChangeState(States.Idle)
 
 func HandleJumping():
-	if keyJumpPressed and jumps<MAXJUMPS:
+	if ((keyJumpPressed or jump_buffer.time_left > 0) and jumps<MAXJUMPS):
 		ChangeState(States.Jump)
 		jumps+=1
+		jump_buffer.stop()
+
+func HandleJumpBuffer():
+	if keyJumpPressed:
+		jump_buffer.start(JUMPBUFFERTIME)
 
 func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 	#gravity
@@ -112,3 +121,7 @@ func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)
+
+
+func _on_jump_buffer_timeout() -> void:
+	print("TimerEnded") # Replace with function body.

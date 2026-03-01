@@ -14,6 +14,8 @@ func Update(_delta):
 	Player.HorizontalMovement()
 	Player.velocity.x *= Player.AIRMOVESPEEDMULT
 	Player.HandleLanding()
+	Player.HandleJumping()
+	Player.HandleJumpBuffer()
 	HandleAnimations()
 
 func HandleAnimations():

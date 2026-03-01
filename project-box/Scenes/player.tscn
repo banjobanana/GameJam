@@ -204,3 +204,9 @@ script = ExtResource("9_f1ek2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
+
+[node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="JumpBuffer" to="." method="_on_jump_buffer_timeout"]
