@@ -24,8 +24,8 @@ const WALLCOYOTETIME = 0.1
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
 const WALLJUMPYSPEEDPEAK = 0 #y-speed at wall jump ends and changes to fall state
-const WALLJUMPVELOCITY = -190
-const WALLJUMPHSPEED = 190
+const WALLJUMPVELOCITY = -160
+const WALLJUMPHSPEED = 240
 const WALLCLINGSPEEDMULT = 0.9
 #variables
 var Accelaration = GROUNDACCELARATION
