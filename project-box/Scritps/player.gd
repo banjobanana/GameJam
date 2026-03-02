@@ -6,7 +6,7 @@ const RUNSPEED = 150.0
 const GROUNDACCELARATION = 40
 const GROUNDDECELARATION = 20
 const AIRACCELARATION = 15
-const AIRDECELARATION = 5
+const AIRDECELARATION = 20
 const AIRMOVESPEEDMULT = 0.6
 
 const JUMPVELOCITY = -140
@@ -23,9 +23,9 @@ const WALLCOYOTETIME = 0.1
 
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
-const WALLJUMPYSPEEDPEAK = 0
+const WALLJUMPYSPEEDPEAK = 0 #y-speed at wall jump ends and changes to fall state
 const WALLJUMPVELOCITY = -190
-const WALLJUMPHSPEED = 120
+const WALLJUMPHSPEED = 190
 const WALLCLINGSPEEDMULT = 0.9
 #variables
 var Accelaration = GROUNDACCELARATION
@@ -77,7 +77,6 @@ func _physics_process(delta: float) -> void:
 	get_input_states()
 	currentState.Update(delta)
 	#movement
-	HandleWallCling()
 	#HandleWallJump()
 	
 	HandleMaxFallVelocity()
@@ -96,7 +95,7 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		print("State change from "+previousState.Name+" to "+newState.Name)
+		#print("State change from "+previousState.Name+" to "+newState.Name)
 		return
 
 func GetWallDirection():
@@ -146,29 +145,16 @@ func HandleLanding():
 
 func HandleWallJump():
 	GetWallDirection()
-	if (keyJumpPressed or jump_buffer.time_left > 0):
-		if currentState==States.WallCling: 
+	if (keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!=Vector2.ZERO:
 			#if wallDirection!= Vector2.ZERO:
 			ChangeState(States.WallJump)
+			#print("walljpm")
 			return
 		#if wall_coyote_timer.time_left > 0:
 			#wall_coyote_timer.stop()
 			#ChangeState(States.WallJump)
 			#return
 		#print("walljump")
-
-func HandleWallCling():
-	GetWallDirection()
-	if (not is_on_floor()) and wallDirection!=Vector2.ZERO and currentState!=States.WallCling:
-		if keyLeft or keyRight:
-			jumps=0
-			ChangeState(States.WallCling)
-			return
-		else:
-			if moveDirectionX==0 and currentState!=States.Fall:
-				#wall_coyote_timer.start(WALLCOYOTETIME)
-				ChangeState(States.Fall)
-				return
 
 func HandleJumping():
 	if is_on_floor():
