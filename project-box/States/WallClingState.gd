@@ -4,7 +4,7 @@ func EnterState():
 	Name="WallCling"
 
 func ExitState():
-	pass
+	Player.wall_coyote_timer.start(Player.WALLCOYOTETIME)
 
 func Draw():
 	pass

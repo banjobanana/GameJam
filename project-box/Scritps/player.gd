@@ -14,10 +14,12 @@ const GRAVITYJUMP = 290
 const MAXJUMPS=1
 const VARIABLEJUMPMULTIPLIER = 0.5
 const GRAVITYFALL = 500
+const GRAVITYWALLJUMP = 250
 const MAXFALLVELOCITY = 300
 
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
 const COYOTETIME = 0.1 #6 frames
+const WALLCOYOTETIME = 0.1
 
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
@@ -52,6 +54,7 @@ var keyJumpPressed=false
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
+@onready var wall_coyote_timer: Timer = $WallCoyoteTimer
 
 #StateMachine
 var currentState = null
@@ -78,6 +81,7 @@ func _physics_process(delta: float) -> void:
 	HandleMaxFallVelocity()
 	GetWallDirection()
 	HorizontalMovement()
+	HandleWallJump()
 	HandleJumping()
 	move_and_slide()
 
@@ -134,27 +138,35 @@ func HandleLanding():
 
 func HandleWallJump():
 	GetWallDirection()
-	#if ((keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!= Vector2.ZERO):
-		#ChangeState(States.WallJump)
+	if (keyJumpPressed or jump_buffer.time_left > 0): 
+		if wallDirection!= Vector2.ZERO:
+			ChangeState(States.WallJump)
+		elif wall_coyote_timer.time_left > 0:
+			wall_coyote_timer.stop()
+			ChangeState(States.WallJump)
 		#print("walljump")
 
 func HandleWallCling():
 	if (not is_on_floor()) and wallDirection!=Vector2.ZERO:
-		if wallDirection == Vector2.RIGHT:
-			if keyRight:
-				#print("Cl;ing")
-				jumps=0
-				ChangeState(States.WallCling)
-		elif wallDirection == Vector2.LEFT:
-			if keyLeft:
-				jumps=0
-				ChangeState(States.WallCling)
+		if keyLeft or keyRight:
+			jumps=0
+			ChangeState(States.WallCling)
+		#if wallDirection == Vector2.RIGHT:
+			#if keyRight:
+				##print("Cl;ing")
+				#jumps=0
+				#ChangeState(States.WallCling)
+		#elif wallDirection == Vector2.LEFT:
+			#if keyLeft:
+				#jumps=0
+				#ChangeState(States.WallCling)
 		else:
 			if moveDirectionX==0:
+				#wall_coyote_timer.start(WALLCOYOTETIME)
 				ChangeState(States.Fall)
 
 func HandleJumping():
-	if is_on_floor() or currentState==States.WallCling:
+	if is_on_floor():
 		if jumps<MAXJUMPS:
 			#normal jumping
 			if keyJumpPressed or jump_buffer.time_left > 0:
