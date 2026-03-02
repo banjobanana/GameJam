@@ -6,7 +6,7 @@ const RUNSPEED = 150.0
 const GROUNDACCELARATION = 40
 const GROUNDDECELARATION = 20
 const AIRACCELARATION = 15
-const AIRDECELARATION = 20
+const AIRDECELARATION = 5
 const AIRMOVESPEEDMULT = 0.6
 
 const JUMPVELOCITY = -140
@@ -78,11 +78,16 @@ func _physics_process(delta: float) -> void:
 	currentState.Update(delta)
 	#movement
 	HandleWallCling()
+	#HandleWallJump()
+	
 	HandleMaxFallVelocity()
-	GetWallDirection()
+	
+	#GetWallDirection()
+	
 	HorizontalMovement()
-	HandleWallJump()
+	
 	HandleJumping()
+	
 	move_and_slide()
 
 func ChangeState(newState):
@@ -91,7 +96,7 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		#print("State change from "+previousState.Name+" to "+newState.Name)
+		print("State change from "+previousState.Name+" to "+newState.Name)
 		return
 
 func GetWallDirection():
@@ -127,43 +132,43 @@ func HandleFalling():
 	if not is_on_floor():
 		coyote_timer.start(COYOTETIME)
 		ChangeState(States.Fall)
+		return
 
 func HandleMaxFallVelocity():
 		if(velocity.y>MAXFALLVELOCITY): velocity.y=MAXFALLVELOCITY
+		return
 
 func HandleLanding():
 	if is_on_floor():
 		jumps=0
 		ChangeState(States.Idle)
+		return
 
 func HandleWallJump():
 	GetWallDirection()
-	if (keyJumpPressed or jump_buffer.time_left > 0): 
-		if wallDirection!= Vector2.ZERO:
+	if (keyJumpPressed or jump_buffer.time_left > 0):
+		if currentState==States.WallCling: 
+			#if wallDirection!= Vector2.ZERO:
 			ChangeState(States.WallJump)
-		elif wall_coyote_timer.time_left > 0:
-			wall_coyote_timer.stop()
-			ChangeState(States.WallJump)
+			return
+		#if wall_coyote_timer.time_left > 0:
+			#wall_coyote_timer.stop()
+			#ChangeState(States.WallJump)
+			#return
 		#print("walljump")
 
 func HandleWallCling():
-	if (not is_on_floor()) and wallDirection!=Vector2.ZERO:
+	GetWallDirection()
+	if (not is_on_floor()) and wallDirection!=Vector2.ZERO and currentState!=States.WallCling:
 		if keyLeft or keyRight:
 			jumps=0
 			ChangeState(States.WallCling)
-		#if wallDirection == Vector2.RIGHT:
-			#if keyRight:
-				##print("Cl;ing")
-				#jumps=0
-				#ChangeState(States.WallCling)
-		#elif wallDirection == Vector2.LEFT:
-			#if keyLeft:
-				#jumps=0
-				#ChangeState(States.WallCling)
+			return
 		else:
-			if moveDirectionX==0:
+			if moveDirectionX==0 and currentState!=States.Fall:
 				#wall_coyote_timer.start(WALLCOYOTETIME)
 				ChangeState(States.Fall)
+				return
 
 func HandleJumping():
 	if is_on_floor():
@@ -173,16 +178,19 @@ func HandleJumping():
 				jumps+=1
 				jump_buffer.stop()
 				ChangeState(States.Jump)
+				return
 	else:
 		#double jump
 		if jumps < MAXJUMPS and jumps > 0 and keyJumpPressed:
 			jumps+=1
 			ChangeState(States.Jump)
+			return
 		#coyote time
 		if coyote_timer.time_left > 0 and keyJumpPressed and jumps<MAXJUMPS:
 			coyote_timer.stop()
 			jumps+=1
 			ChangeState(States.Jump)
+			return
 
 func HandleJumpBuffer():
 	if keyJumpPressed:

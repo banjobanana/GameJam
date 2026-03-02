@@ -2,8 +2,10 @@ extends PlayerState
 
 func EnterState():
 	Name="WallJump"
+	
 	Player.velocity.y = Player.WALLJUMPVELOCITY
-	#Player.velocity.x = Player.moveDirectionX * -1 * 100
+	#Player.velocity = Vector2(Player.WALLJUMPHSPEED,Player.WALLJUMPVELOCITY)
+	#Player.velocity.x = Player.velocity.x * -1 
 	
 func ExitState():
 	pass
@@ -13,7 +15,7 @@ func Draw():
 
 func Update(_delta):
 	Player.HandleGravity(_delta,Player.GRAVITYWALLJUMP)
-	Player.HorizontalMovement()
+	Player.HorizontalMovement(Player.AIRACCELARATION,Player.AIRDECELARATION)
 	Player.HandleJumpBuffer()
 	#Player.velocity.x = Player.moveDirectionX * -1 * 100
 	#Player.velocity.x *= Player.AIRMOVESPEEDMULT
