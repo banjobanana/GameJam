@@ -14,8 +14,8 @@ func Update(_delta):
 	Player.velocity.y *= Player.WALLCLINGSPEEDMULT
 	Player.HorizontalMovement()
 	Player.HandleWallJump()
-	Player.HandleJumpBuffer()#somehow increases jump height during wall jump
-	Player.HandleJumping()
+	#Player.HandleJumpBuffer()#somehow increases jump height during wall jump
+	#Player.HandleJumping()
 	if Player.wallDirection == Vector2.RIGHT:
 		if !Player.keyRight:
 			Player.ChangeState(States.Fall)

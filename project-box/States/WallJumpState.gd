@@ -2,10 +2,9 @@ extends PlayerState
 
 func EnterState():
 	Name="WallJump"
-	
 	Player.velocity.y = Player.WALLJUMPVELOCITY
 	#Player.velocity = Vector2(Player.WALLJUMPHSPEED,Player.WALLJUMPVELOCITY)
-	#Player.velocity.x = Player.velocity.x * -1 
+	Player.velocity.x = Player.wallDirection.x * -1 * Player.WALLJUMPHSPEED
 	
 func ExitState():
 	pass
@@ -24,12 +23,13 @@ func Update(_delta):
 
 func HandleJumpToFall():
 	if Player.velocity.y >= 0:
-		Player.ChangeState(States.Fall)
+		#Player.ChangeState(States.Fall)
+		pass
 	#variable jump height
 	if !Player.keyJump:
 		#print(Player.keyJump)
 		Player.velocity.y *= Player.VARIABLEJUMPMULTIPLIER 
-		Player.ChangeState(States.Fall) 
+		#Player.ChangeState(States.Fall) 
 	
 
 func HandleAnimations():

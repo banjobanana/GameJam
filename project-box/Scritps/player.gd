@@ -5,7 +5,7 @@ class_name player_class extends CharacterBody2D
 const RUNSPEED = 150.0
 const GROUNDACCELARATION = 40
 const GROUNDDECELARATION = 20
-const AIRACCELARATION = 15
+const AIRACCELARATION = 10
 const AIRDECELARATION = 5
 const AIRMOVESPEEDMULT = 0.6
 
@@ -96,7 +96,7 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		print("State change from "+previousState.Name+" to "+newState.Name)
+		#print("State change from "+previousState.Name+" to "+newState.Name)
 		return
 
 func GetWallDirection():
@@ -146,10 +146,9 @@ func HandleLanding():
 
 func HandleWallJump():
 	GetWallDirection()
-	if (keyJumpPressed or jump_buffer.time_left > 0):
-		if currentState==States.WallCling: 
-			#if wallDirection!= Vector2.ZERO:
+	if (keyJumpPressed or jump_buffer.time_left > 0) and wallDirection!= Vector2.ZERO:
 			ChangeState(States.WallJump)
+			print("wlpo")
 			return
 		#if wall_coyote_timer.time_left > 0:
 			#wall_coyote_timer.stop()
