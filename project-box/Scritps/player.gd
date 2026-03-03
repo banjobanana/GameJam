@@ -8,6 +8,7 @@ const GROUNDDECELARATION = 20
 const AIRACCELARATION = 15
 const AIRDECELARATION = 20
 const AIRMOVESPEEDMULT = 0.6
+const DASHSPEED = 500
 
 const JUMPVELOCITY = -140
 const GRAVITYJUMP = 290
@@ -20,6 +21,8 @@ const MAXFALLVELOCITY = 300
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
 const COYOTETIME = 0.1 #6 frames
 const WALLCOYOTETIME = 0.1
+const DASHAGAINTIME = 0.2
+const DASHTIME = 0.1
 
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
@@ -44,6 +47,7 @@ var keyLeft =false
 var keyRight=false
 var keyJump=false
 var keyJumpPressed=false
+var keyDash = false
 
 #nodes
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -55,6 +59,8 @@ var keyJumpPressed=false
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
 @onready var wall_coyote_timer: Timer = $WallCoyoteTimer
+@onready var dash_again_timer: Timer = $DashAgainTimer
+@onready var dash_timer: Timer = $DashTimer
 
 #StateMachine
 var currentState = null
@@ -82,6 +88,7 @@ func _physics_process(delta: float) -> void:
 	HandleMaxFallVelocity()
 	
 	#GetWallDirection()
+	HandleDashing()
 	
 	HorizontalMovement()
 	
@@ -113,19 +120,26 @@ func get_input_states():
 	keyRight = Input.is_action_pressed("Right")
 	keyJump = Input.is_action_pressed("Jump")
 	keyJumpPressed = Input.is_action_just_pressed("Jump")
+	keyDash = Input.is_action_just_pressed("Dash")
 	
 	if keyRight: facing=1
 	if keyLeft: facing=-1
 
-func HorizontalMovement(accelaration: float = Accelaration, decelaration: float = Decelaration):
+func HandleDashing():
+	if keyDash and not dash_again_timer.time_left > 0:
+		dash_timer.start(DASHTIME)
+		ChangeState(States.Dashing)
+		print("Dashing")
+
+func HorizontalMovement(accelaration: float = Accelaration, decelaration: float = Decelaration, MoveSpeed: float=moveSpeed):
 	moveDirectionX = Input.get_axis("Left","Right")
 	#if currentState == States.Jump or currentState == States.Fall:
 		#moveSpeed/=2
 	if moveDirectionX != 0: 
-		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,accelaration)
+		velocity.x = move_toward(velocity.x, moveDirectionX * MoveSpeed,accelaration)
 		#print(moveSpeed)
 	else:
-		velocity.x = move_toward(velocity.x, moveDirectionX * moveSpeed,decelaration)
+		velocity.x = move_toward(velocity.x, moveDirectionX * MoveSpeed,decelaration)
 
 func HandleFalling():
 	if not is_on_floor():
@@ -189,3 +203,13 @@ func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)
+
+
+
+func _on_dash_timer_timeout() -> void:
+	print("neo")
+	print(currentState.Name)
+
+
+func _on_dash_again_timer_timeout() -> void:
+	print("donewaitr")# Replace with function body.

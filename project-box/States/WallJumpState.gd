@@ -1,4 +1,4 @@
-class_name WallJump extends PlayerState
+extends PlayerState
 
 var lastWallDirection
 var shouldEnableWallKick
@@ -42,6 +42,7 @@ func ShouldOnlyJumpButtonWallKick(shouldEnable: bool):
 				Player.ChangeState(States.Fall)
 	else:
 		Player.velocity.x = Player.WALLJUMPHSPEED * Player.wallDirection.x * -1
+		Player.facing = Player.wallDirection.x * -1
 
 func HandleWallJumpEnd():
 	if Player.velocity.y >= Player.WALLJUMPYSPEEDPEAK:
