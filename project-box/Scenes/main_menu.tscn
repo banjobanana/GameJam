@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://mwvhs2yf7nba"]
+
+[ext_resource type="Script" uid="uid://dcvkdkot7wlnq" path="res://Scritps/rng_tester.gd" id="1_28flt"]
+
+[node name="Seed Generator Menu" type="Node2D"]
+script = ExtResource("1_28flt")
+
+[node name="RNG" type="Node" parent="."]
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_right = 233.0
+offset_bottom = 31.0
+
+[node name="Button" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 67.0
+offset_right = 234.0
+offset_bottom = 184.0
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
