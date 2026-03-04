@@ -18,6 +18,8 @@ const GRAVITYFALL = 500
 const GRAVITYWALLJUMP = 250
 const MAXFALLVELOCITY = 300
 
+const MAXLIVES=1
+
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
 const COYOTETIME = 0.1 #6 frames
 const WALLCOYOTETIME = 0.1
@@ -40,6 +42,8 @@ var jumps=0 #number of jumps done
 var facing=1
 var wallDirection = Vector2.ZERO
 
+var lives=MAXLIVES
+
 #input variables
 var keyUp=false
 var keyDown=false
@@ -61,6 +65,7 @@ var keyDash = false
 @onready var wall_coyote_timer: Timer = $WallCoyoteTimer
 @onready var dash_again_timer: Timer = $DashAgainTimer
 @onready var dash_timer: Timer = $DashTimer
+@onready var level_manager: Node = %LevelManager
 
 #StateMachine
 var currentState = null
@@ -204,12 +209,9 @@ func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)
 
-
-
-func _on_dash_timer_timeout() -> void:
-	print("neo")
-	print(currentState.Name)
-
-
-func _on_dash_again_timer_timeout() -> void:
-	print("donewaitr")# Replace with function body.
+func Die():
+	lives-=1
+	if lives==0:
+		level_manager.GameOver()
+	else:
+		level_manager.Restart()

@@ -2,9 +2,9 @@ extends Node
 
 var rng = RandomNumberGenerator.new()
 
-#signal seed(cSeed)
-
 @onready var line_edit: LineEdit = $LineEdit
+
+var levels = ["res://Scenes/node_2d.tscn","res://Scenes/Areana.tscn"]
 
 func _ready() -> void:
 	pass
@@ -18,5 +18,6 @@ func _on_button_button_down() -> void:
 	#print(rng.seed)
 	var file = FileAccess.open("user://seed.dat",FileAccess.WRITE)
 	file.store_64(rng.seed)
-	get_tree().change_scene_to_file("res://Scenes/node_2d.tscn")
+	var level = rng.randi_range(0,1)
+	get_tree().change_scene_to_file(levels[level])
 	# Replace with function body.
