@@ -134,7 +134,7 @@ func HandleDashing():
 	if keyDash and not dash_again_timer.time_left > 0:
 		dash_timer.start(DASHTIME)
 		ChangeState(States.Dashing)
-		print("Dashing")
+		#print("Dashing")
 
 func HorizontalMovement(accelaration: float = Accelaration, decelaration: float = Decelaration, MoveSpeed: float=moveSpeed):
 	moveDirectionX = Input.get_axis("Left","Right")

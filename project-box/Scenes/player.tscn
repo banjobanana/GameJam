@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dhv21cnwh8y4b" path="res://Assets/Character base.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dcxkn0eh6rrtu" path="res://Scritps/player.gd" id="1_onrkg"]
-[ext_resource type="Script" uid="uid://cwjwr02fjs53d" path="res://Scenes/States.gd" id="3_6t5aa"]
+[ext_resource type="Script" uid="uid://cwjwr02fjs53d" path="res://Scritps/States.gd" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://cuuedskhn5hdh" path="res://States/LockedState.gd" id="4_fkybt"]
 [ext_resource type="Script" uid="uid://bol1p1tjldoj5" path="res://States/IdleState.gd" id="4_vgqql"]
 [ext_resource type="Script" uid="uid://dy4tq8isdosqx" path="res://States/RunState.gd" id="6_x3wgy"]
