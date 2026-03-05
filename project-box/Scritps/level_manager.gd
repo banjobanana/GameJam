@@ -5,11 +5,11 @@ extends Node
 @onready var room_lister: Node = %RoomLister
 
 var roomlistfile = FileAccess.open("user://roomlist.dat",FileAccess.READ)
-
 var playerprogressfile = FileAccess.open("user://playerprogress.dat",FileAccess.READ)
 var playerprogress = playerprogressfile.get_64()
 
 func GameOver():
+	get_tree().change_scene_to_file("res://Scenes/hub_area.tscn")
 	print("GameOvering")
 
 func Restart():

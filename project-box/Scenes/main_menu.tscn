@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://mwvhs2yf7nba"]
 
-[ext_resource type="Script" uid="uid://dcvkdkot7wlnq" path="res://Scritps/rng_tester.gd" id="1_28flt"]
+[ext_resource type="Script" uid="uid://dcvkdkot7wlnq" path="res://Scritps/seed_generator_mainmenu.gd" id="1_28flt"]
 
 [node name="Seed Generator Menu" type="Node2D"]
 script = ExtResource("1_28flt")

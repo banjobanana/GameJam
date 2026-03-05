@@ -10,16 +10,16 @@ colors = PackedColorArray(0.6901961, 0.043137256, 0.4117647, 1, 0.64705884, 0.36
 gradient = SubResource("Gradient_7fpl0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7nac"]
-size = Vector2(256, 138)
+size = Vector2(224, 128)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_k11vl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -68.75)
-scale = Vector2(1, 138.5)
+position = Vector2(-15.999996, -63.75)
+scale = Vector2(0.875, 128.50002)
 texture = SubResource("GradientTexture1D_k11vl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -69)
+position = Vector2(-16, -64)
 shape = SubResource("RectangleShape2D_p7nac")
