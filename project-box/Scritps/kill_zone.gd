@@ -1,8 +1,9 @@
 extends Area2D
 
-#@onready var player: player_class = %Player
+@onready var player: player_class = %Player
 
 func _on_body_entered(body: Node2D) -> void:
 	#print(body)
 	if body.name == "Player":
-		body.Die() # Replace with function body.
+		player.Die()
+		#body.Die() # Replace with function body.

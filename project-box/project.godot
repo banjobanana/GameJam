@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Project_Box"
-run/main_scene="uid://mwvhs2yf7nba"
+run/main_scene="uid://w01063yd3l4g"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
