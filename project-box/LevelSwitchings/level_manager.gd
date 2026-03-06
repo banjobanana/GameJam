@@ -20,12 +20,15 @@ func _ready() -> void:
 	level_root.EnterLevel()
 
 func GameOver():
-	get_tree().change_scene_to_file("res://Levels/hub_area.tscn")
-	print("GameOvering")
+	if level_root.Tutorial:
+		Restart()	
+	else:
+		get_tree().change_scene_to_file("res://Levels/hub_area.tscn")
+		#print("GameOvering")
 
 func Restart():
-	print("Restarting")
-	print(level_root.GetSpawnPoint())
+	#print("Restarting")
+	#print(level_root.GetSpawnPoint())
 	player.position = level_root.GetSpawnPoint()
 
 func LevelComplete():
