@@ -1,6 +1,6 @@
 extends Node
 
-var t1rooms = ["res://Scenes/node_2d.tscn","res://Scenes/Areana.tscn"]
+var t1rooms = ["res://Levels/T1A.tscn","res://Levels/T1B.tscn"]
 var t1size=2
 var t2rooms = []
 var t2size=0

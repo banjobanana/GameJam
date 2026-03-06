@@ -26,4 +26,4 @@ func _on_button_button_down() -> void:
 	#writing seed to file for access
 	var file = FileAccess.open("user://seed.dat",FileAccess.WRITE)
 	file.store_64(rng.seed)
-	get_tree().change_scene_to_file("res://Scenes/hub_area.tscn")
+	get_tree().change_scene_to_file("res://Levels/hub_area.tscn")

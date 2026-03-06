@@ -8,9 +8,7 @@ var roomlist
 #@onready var level_manager: Node = %LevelManager
 
 func _ready() -> void:
-	roomlist = roomlistfile.get_csv_line()
-	playerprogress = playerprogressfile.get_64()
-	#get_tree().change_scene_to_file(roomlist[playerprogress])
+	pass 
 	
 
 func _on_body_entered(body: Node2D) -> void:

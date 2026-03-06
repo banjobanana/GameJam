@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dhv21cnwh8y4b" path="res://Assets/Character base.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dcxkn0eh6rrtu" path="res://Scritps/player.gd" id="1_onrkg"]
-[ext_resource type="Script" uid="uid://cwjwr02fjs53d" path="res://Scritps/States.gd" id="3_6t5aa"]
+[ext_resource type="Script" uid="uid://cwjwr02fjs53d" path="res://States/States.gd" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://cuuedskhn5hdh" path="res://States/LockedState.gd" id="4_fkybt"]
 [ext_resource type="Script" uid="uid://bol1p1tjldoj5" path="res://States/IdleState.gd" id="4_vgqql"]
 [ext_resource type="Script" uid="uid://dy4tq8isdosqx" path="res://States/RunState.gd" id="6_x3wgy"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://beiqu4o7cs886" path="res://States/JumpPeakState.gd" id="8_8erm5"]
 [ext_resource type="Script" uid="uid://vvpi5bakvxb0" path="res://States/FallState.gd" id="9_f1ek2"]
 [ext_resource type="Script" uid="uid://450ng7h7sogj" path="res://States/WallJumpState.gd" id="10_tx1dd"]
-[ext_resource type="Script" uid="uid://blgsd8jpt58nr" path="res://Scritps/DashingState.gd" id="11_gymyn"]
+[ext_resource type="Script" uid="uid://blgsd8jpt58nr" path="res://States/DashingState.gd" id="11_gymyn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pu2lt"]
 atlas = ExtResource("1_4flbx")
