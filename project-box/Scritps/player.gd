@@ -54,6 +54,8 @@ var keyRight=false
 var keyJump=false
 var keyJumpPressed=false
 var keyDash = false
+var keyAttack=false
+var keyAttackPressed=false
 
 #nodes
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -99,6 +101,8 @@ func _physics_process(delta: float) -> void:
 	
 	HorizontalMovement()
 	
+	Attack()
+	
 	HandleJumping()
 	
 	move_and_slide()
@@ -109,7 +113,7 @@ func ChangeState(newState):
 		currentState=newState
 		previousState.ExitState()
 		newState.EnterState()
-		#print("State change from "+previousState.Name+" to "+newState.Name)
+		print("State change from "+previousState.Name+" to "+newState.Name)
 		return
 
 func GetWallDirection():
@@ -128,6 +132,8 @@ func get_input_states():
 	keyJump = Input.is_action_pressed("Jump")
 	keyJumpPressed = Input.is_action_just_pressed("Jump")
 	keyDash = Input.is_action_just_pressed("Dash")
+	keyAttack = Input.is_action_pressed("Attack")
+	keyAttackPressed = Input.is_action_just_pressed("Attack")
 	
 	if keyRight: facing=1
 	if keyLeft: facing=-1
@@ -143,6 +149,7 @@ func HorizontalMovement(accelaration: float = Accelaration, decelaration: float 
 	#if currentState == States.Jump or currentState == States.Fall:
 		#moveSpeed/=2
 	if moveDirectionX != 0: 
+		#ChangeState(States.Run)
 		velocity.x = move_toward(velocity.x, moveDirectionX * MoveSpeed,accelaration)
 		#print(moveSpeed)
 	else:
@@ -228,3 +235,8 @@ func Heal(heal: int):
 		health = MAXHEALTH
 	else:
 		health+=heal
+
+func Attack():
+	if keyAttackPressed:
+		print("attacking")
+		ChangeState(States.Attacking)

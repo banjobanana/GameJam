@@ -10,7 +10,7 @@ func Draw():
 	pass
 
 func Update(_delta: float):
-	Player.HorizontalMovement()
+	Player.HorizontalMovement(Player.GROUNDACCELARATION,Player.GROUNDDECELARATION)
 	Player.HandleJumping()
 	Player.HandleFalling()
 	HandleAnimations()
