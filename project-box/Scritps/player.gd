@@ -20,12 +20,15 @@ const MAXFALLVELOCITY = 300
 
 const MAXLIVES=1
 const MAXHEALTH = 10
+const DAMAGE = 10
 
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
 const COYOTETIME = 0.1 #6 frames
 const WALLCOYOTETIME = 0.1
 const DASHAGAINTIME = 0.2
 const DASHTIME = 0.1
+const ATTACKTIME = 0.6 #how long attack lasts
+const ATTACKAGAINTIME = 0.2 #tiem between attacks
 
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
@@ -60,16 +63,22 @@ var keyAttackPressed=false
 #nodes
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var States = $Statemachine
 @onready var camera_2d: Camera2D = $Camera2D
-@onready var jump_buffer: Timer = $JumpBuffer
-@onready var coyote_timer: Timer = $CoyoteTimer
+
+@onready var States = $Statemachine
+@onready var level_manager: Node = %LevelManager
+
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
-@onready var wall_coyote_timer: Timer = $WallCoyoteTimer
-@onready var dash_again_timer: Timer = $DashAgainTimer
-@onready var dash_timer: Timer = $DashTimer
-@onready var level_manager: Node = %LevelManager
+@onready var rc_attack_right: RayCast2D = $RCAttackRight
+@onready var rc_attack_left: RayCast2D = $RCAttackLeft
+
+@onready var jump_buffer: Timer = $Timer/JumpBuffer
+@onready var coyote_timer: Timer = $Timer/CoyoteTimer
+@onready var dash_again_timer: Timer = $Timer/DashAgainTimer
+@onready var dash_timer: Timer = $Timer/DashTimer
+@onready var attack_again_timer: Timer = $Timer/AttackAgainTimer
+@onready var attack_timer: Timer = $Timer/AttackTimer
 
 #StateMachine
 var currentState = null
@@ -91,12 +100,9 @@ func _draw():
 func _physics_process(delta: float) -> void:
 	get_input_states()
 	currentState.Update(delta)
-	#movement
-	#HandleWallJump()
 	
 	HandleMaxFallVelocity()
 	
-	#GetWallDirection()
 	HandleDashing()
 	
 	HorizontalMovement()
@@ -106,23 +112,6 @@ func _physics_process(delta: float) -> void:
 	HandleJumping()
 	
 	move_and_slide()
-
-func ChangeState(newState):
-	if(newState!=null):
-		previousState=currentState
-		currentState=newState
-		previousState.ExitState()
-		newState.EnterState()
-		print("State change from "+previousState.Name+" to "+newState.Name)
-		return
-
-func GetWallDirection():
-	if ray_cast_right.is_colliding():
-		wallDirection = Vector2.RIGHT
-	elif ray_cast_left.is_colliding():
-		wallDirection = Vector2.LEFT
-	else:
-		wallDirection=Vector2.ZERO
 
 func get_input_states():
 	keyUp = Input.is_action_pressed("Up")
@@ -137,6 +126,15 @@ func get_input_states():
 	
 	if keyRight: facing=1
 	if keyLeft: facing=-1
+
+func ChangeState(newState):
+	if(newState!=null):
+		previousState=currentState
+		currentState=newState
+		previousState.ExitState()
+		newState.EnterState()
+		#print("State change from "+previousState.Name+" to "+newState.Name)
+		return
 
 func HandleDashing():
 	if keyDash and not dash_again_timer.time_left > 0:
@@ -154,6 +152,15 @@ func HorizontalMovement(accelaration: float = Accelaration, decelaration: float 
 		#print(moveSpeed)
 	else:
 		velocity.x = move_toward(velocity.x, moveDirectionX * MoveSpeed,decelaration)
+
+#region Air
+func GetWallDirection():
+	if ray_cast_right.is_colliding():
+		wallDirection = Vector2.RIGHT
+	elif ray_cast_left.is_colliding():
+		wallDirection = Vector2.LEFT
+	else:
+		wallDirection=Vector2.ZERO
 
 func HandleFalling():
 	if not is_on_floor():
@@ -214,9 +221,13 @@ func HandleGravity(delta, gravity:float=GRAVITYJUMP):
 	#gravity
 	if not is_on_floor():
 		velocity.y+=gravity*delta
+#endregion
 
 func HandleFlipH():
 		animated_sprite_2d.flip_h = (facing<0)
+
+#region Comabt
+
 
 func Die():
 	lives-=1
@@ -237,6 +248,9 @@ func Heal(heal: int):
 		health+=heal
 
 func Attack():
-	if keyAttackPressed:
-		print("attacking")
+	if keyAttackPressed and not attack_again_timer.time_left>0:
+		#print("attacking")
+		attack_again_timer.start(ATTACKAGAINTIME)
 		ChangeState(States.Attacking)
+
+#endregion

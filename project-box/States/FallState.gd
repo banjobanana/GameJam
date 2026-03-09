@@ -18,5 +18,7 @@ func Update(_delta):
 	HandleAnimations()
 
 func HandleAnimations():
+	if Player.attack_timer.time_left>0:
+		return
 	Player.animated_sprite_2d.play("fall")
 	Player.HandleFlipH()

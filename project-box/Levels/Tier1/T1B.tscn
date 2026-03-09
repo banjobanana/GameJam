@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://cmb6hqcyvn58t"]
+[gd_scene load_steps=10 format=4 uid="uid://cmb6hqcyvn58t"]
 
 [ext_resource type="Script" uid="uid://d6st3sfcg6bv" path="res://Levels/LevelStats/T1BStats.gd" id="1_mgx0r"]
 [ext_resource type="Texture2D" uid="uid://co7ktbmdpyr1u" path="res://Assets/bk.png" id="2_a2bke"]
 [ext_resource type="PackedScene" uid="uid://d01t6d7gu5yrp" path="res://Scenes/player.tscn" id="3_re7xc"]
 [ext_resource type="Texture2D" uid="uid://ycgbhmit6iof" path="res://Assets/Tiles 16x16.png" id="4_pb747"]
 [ext_resource type="Script" uid="uid://c0o4meotk16f4" path="res://LevelSwitchings/level_manager.gd" id="5_pgwwd"]
+[ext_resource type="PackedScene" uid="uid://bcmkf1ebh6nub" path="res://Scenes/enemy_test.tscn" id="6_smqs3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1rkxm"]
 texture = ExtResource("4_pb747")
@@ -151,6 +152,7 @@ tile_map_data = PackedByteArray("AAD//yMAAAABAAEAAAD//yQAAAABAAEAAAD//yUAAAABAAE
 tile_set = SubResource("TileSet_7ar1l")
 
 [node name="LevelCompleteMarker" type="Area2D" parent="."]
+visible = false
 position = Vector2(41, 533)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelCompleteMarker"]
@@ -162,5 +164,8 @@ unique_name_in_owner = true
 script = ExtResource("5_pgwwd")
 
 [node name="WaitBeofreLevelChange" type="Timer" parent="LevelManager"]
+
+[node name="Enemy" parent="." instance=ExtResource("6_smqs3")]
+position = Vector2(776, 526)
 
 [connection signal="body_entered" from="LevelCompleteMarker" to="LevelManager" method="_on_level_complete_marker_body_entered"]

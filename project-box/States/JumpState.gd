@@ -18,7 +18,7 @@ func Update(_delta):
 	HandleAnimations()
 
 func HandleJumpToFall():
-	if Player.velocity.y >= 0:
+	if Player.velocity.y >= 0 and Player.attack_timer.time_left>0:
 		Player.ChangeState(States.Fall)
 	#variable jump height
 	if !Player.keyJump:
