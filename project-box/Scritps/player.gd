@@ -19,7 +19,7 @@ const GRAVITYWALLJUMP = 250
 const MAXFALLVELOCITY = 300
 
 const MAXLIVES=1
-const MAXHEALTH = 10
+const MAXHEALTH = 100
 const DAMAGE = 10
 
 const JUMPBUFFERTIME = 0.15 #9 frames FPS/frames needed
@@ -27,7 +27,7 @@ const COYOTETIME = 0.1 #6 frames
 const WALLCOYOTETIME = 0.1
 const DASHAGAINTIME = 0.2
 const DASHTIME = 0.1
-const ATTACKTIME = 0.6 #how long attack lasts
+const ATTACKTIME = 0.3#how long attack lasts
 const ATTACKAGAINTIME = 0.2 #tiem between attacks
 
 const WALLKICKACCELARATION = 4
@@ -236,8 +236,10 @@ func Die():
 	else:
 		level_manager.Restart()
 
-func TakeDamage(dmg: int):
+func TakeDamage(dmg: int, dmgDir):
 	health-=dmg
+	#velocity.x = 500 * -1 * dmgDir 
+	print(health)
 	if health<=0:
 		Die()
 

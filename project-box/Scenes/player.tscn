@@ -271,6 +271,7 @@ script = ExtResource("12_pu2lt")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
+position_smoothing_enabled = true
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 position = Vector2(4, 13)

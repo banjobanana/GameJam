@@ -8,7 +8,7 @@ var Name
 func Spawned():
 	pass
 	
-func Patrolling():
+func Patrolling(_delta):
 	pass
 
 func Aggrod():

@@ -23,7 +23,7 @@ target_position = Vector2(20, 0)
 rotation = 3.1415927
 target_position = Vector2(20, 0)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="AttackCDTimer" type="Timer" parent="."]
 wait_time = 0.8
 one_shot = true
 
@@ -32,3 +32,8 @@ one_shot = true
 
 [node name="TimerRight" type="Timer" parent="."]
 one_shot = true
+
+[node name="ChargeTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ChargeTimer" to="." method="_on_charge_timer_timeout"]

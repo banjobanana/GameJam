@@ -10,6 +10,8 @@ func EnterState():
 		primaryCollider=Player.rc_attack_left
 	elif Player.facing>0:
 		primaryCollider=Player.rc_attack_right
+	enemy = GetEnemyCollider()
+	DealDamage(dmg)
 
 func ExitState():
 	pass
@@ -18,8 +20,7 @@ func Draw():
 	pass
 
 func Update(_delta):
-	enemy = GetEnemyCollider()
-	DealDamage(dmg)
+	#enemy = GetEnemyCollider()
 	Player.HandleFalling()
 	Player.HandleJumping()
 	Player.HorizontalMovement()
