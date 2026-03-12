@@ -1,4 +1,4 @@
-class_name Enemy extends Area2D
+class_name Enemy extends CharacterBody2D
 
 var Maxhealth
 var CurrentHealth

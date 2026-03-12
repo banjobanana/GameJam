@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv4q84pjo3akd"]
+
+[ext_resource type="Script" uid="uid://dc7sljvcnsbc3" path="res://enemylungeing.gd" id="1_ayfk5"]
+[ext_resource type="Texture2D" uid="uid://c13k62vruohf0" path="res://icon.svg" id="1_mt7ek"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ayfk5"]
+size = Vector2(12, 12)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_ayfk5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_mt7ek")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ayfk5")
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)
+
+[node name="RayCast2D3" type="RayCast2D" parent="."]
+rotation = 3.1415927
+target_position = Vector2(20, 0)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[node name="TimerLeft" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerRight" type="Timer" parent="."]
+one_shot = true
