@@ -44,7 +44,7 @@ func NextLevel():
 	if level_root.Tutorial:
 		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
 	elif level_root.Hub:
-		get_tree().change_scene_to_file("res://Scenes/RoomGeneratorScene.tscn")
+		get_tree().change_scene_to_file("res://MapGeneration/RoomGeneratorScene.tscn")
 	else:
 		playerprogressfile.close()
 		playerprogressfile = FileAccess.open("user://playerprogress.dat",FileAccess.WRITE)
