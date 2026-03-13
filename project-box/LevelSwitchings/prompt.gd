@@ -16,7 +16,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if overlaps_body(player):
 		if Input.is_action_just_pressed("Interact"):
-			level_manager.playerprogress+=1
+			#level_manager.playerprogress+=1
 			print("Nextlevel")
 			level_manager.NextLevel()
 

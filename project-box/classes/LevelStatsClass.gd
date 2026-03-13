@@ -8,7 +8,7 @@ var Hub: bool=false
 var Tutorial: bool = false
 var Parkour: bool = false
 var Combat: bool = false
-
+var Platformed: bool = false
 func EnterLevel():
 	pass
 

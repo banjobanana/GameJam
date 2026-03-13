@@ -61,13 +61,13 @@ func Spawned():
 func TakeDamage(DmgAmt):
 	CurrentHealth-=DmgAmt
 	velocity.x = direction * SPEED * -1
-	print(CurrentHealth)
+	#print(CurrentHealth)
 	Die()
 
 func Die():
 	#print("dead")
 	if CurrentHealth<=0:
-		print("dead")
+		#print("dead")
 		level_manager.enemyKilled += 1
 		level_manager.EnemyCleared()
 		queue_free()

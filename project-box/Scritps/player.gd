@@ -70,6 +70,7 @@ var keyAttackPressed=false
 
 @onready var States = $Statemachine
 @onready var level_manager: Node = %LevelManager
+@onready var level_root: LevelStats = $".."
 
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
@@ -262,4 +263,7 @@ func Attack():
 		attack_again_timer.start(ATTACKAGAINTIME)
 		ChangeState(States.Attacking)
 
+func Respawn():
+	if !level_root.Hub and !level_root.Tutorial:
+		position = level_root.GetSpawnPoint() 
 #endregion

@@ -21,6 +21,7 @@ var enemyKilled=0
 func _ready() -> void:
 	rng.seed = seedfile.get_64()
 	level_root.EnterLevel()
+	#print(playerprogress)
 	if level_root.Combat:
 		enemyCount = level_root.totalEnemies
 
@@ -38,18 +39,27 @@ func Restart():
 
 func LevelComplete():
 	GetReward()
+	if IsLevelCompleted:
+		return
+	playerprogress+=1
+	print(playerprogress)
+	playerprogressfile.close()
+	playerprogressfile = FileAccess.open("user://playerprogress.dat",FileAccess.WRITE)
+	playerprogressfile.store_64(playerprogress)
+	playerprogressfile.close()
+	playerprogressfile = FileAccess.open("user://playerprogress.dat",FileAccess.READ)
+	print("Level Complete: ",playerprogressfile.get_64())
 	progressor.position = level_root.GetEndPoint()
 
 func NextLevel():
 	if level_root.Tutorial:
 		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
 	elif level_root.Hub:
+		#print("Player progress in Hub: ", playerprogressfile.get_64())
 		get_tree().change_scene_to_file("res://MapGeneration/RoomGeneratorScene.tscn")
 	else:
-		playerprogressfile.close()
-		playerprogressfile = FileAccess.open("user://playerprogress.dat",FileAccess.WRITE)
-		playerprogressfile.store_64(playerprogress)
 		var roomlist = roomlistfile.get_csv_line()
+		print(roomlist[playerprogress])
 		get_tree().change_scene_to_file(roomlist[playerprogress])
 
 func GetReward():
@@ -57,8 +67,9 @@ func GetReward():
 		print(level_root.GetRewardList()[rng.rand_weighted(level_root.GetRewardProbalities())])
 
 func EnemyCleared():
-	if enemyKilled==enemyCount:
+	if enemyKilled==enemyCount and not IsLevelCompleted:
 		LevelComplete()
+		IsLevelCompleted=true
 
 func _on_level_complete_marker_body_entered(body: Node2D) -> void:
 	if body.name=="Player":
