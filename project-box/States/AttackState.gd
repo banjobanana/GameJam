@@ -30,7 +30,7 @@ func Update(_delta):
 
 func GetEnemyCollider() -> Enemy:
 	var enemyCollider
-	if primaryCollider.get_collider()!=null:
+	if primaryCollider.get_collider()!=null and primaryCollider.get_collider() is Enemy:
 		enemyCollider = primaryCollider.get_collider()
 	return enemyCollider
 
@@ -43,5 +43,5 @@ func StopAttack():
 	
 
 func DealDamage(dmgAmt):
-	if primaryCollider.get_collider()!=null:
+	if primaryCollider.get_collider()!=null and primaryCollider.get_collider() is Enemy:
 		enemy.TakeDamage(dmgAmt)

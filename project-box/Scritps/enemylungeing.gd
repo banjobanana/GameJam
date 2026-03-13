@@ -1,17 +1,22 @@
 extends Enemy
 
+
 var playerPos
 var direction=-1
 var idle
+
 const SPEED = 1700.0
 const JUMP_VELOCITY = -40.0
 const MOVESPEED = 400
+
 @onready var rc_right: RayCast2D = $RayCast2D2
 @onready var rc_left: RayCast2D = $RayCast2D3
 @onready var timer: Timer = $AttackCDTimer
 @onready var timer_left: Timer = $TimerLeft
 @onready var timer_right: Timer = $TimerRight
 @onready var charge_timer: Timer = $ChargeTimer
+@onready var level_root: Node2D = $".."
+@onready var level_manager: Node = %LevelManager
 
 func _ready() -> void:
 	Spawned()
@@ -63,6 +68,8 @@ func Die():
 	#print("dead")
 	if CurrentHealth<=0:
 		print("dead")
+		level_manager.enemyKilled += 1
+		level_manager.EnemyCleared()
 		queue_free()
 
 func Aggrod():

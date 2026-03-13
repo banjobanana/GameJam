@@ -1,7 +1,12 @@
 extends LevelStats
 
+var totalEnemies = 4
+var killedEnemies=0
+
 func EnterLevel():
+	Combat = true
 	Spawnpoint = Vector2(578,484)
+	EndPoint = Vector2(488,544)
 	#REWARDLIST AND PROBABILITIES MUST BE OF SAME SIZE!!!
 	RewardList = ["NewWeapon","Artifact"]#possible rewards
 	Probabilties = [1,1]#rarity of corresponding index reward in rewardlist
@@ -14,3 +19,6 @@ func GetRewardList():
 
 func GetRewardProbalities():
 	return Probabilties
+
+func GetEndPoint():
+	return EndPoint

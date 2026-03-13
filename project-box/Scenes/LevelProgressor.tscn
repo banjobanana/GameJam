@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://t83gl8bm3goh"]
 
-[ext_resource type="Script" uid="uid://cq3fj6tr2hcl0" path="res://LevelSwitchings/HubToRoomGenerator.gd" id="1_k11vl"]
+[ext_resource type="Script" uid="uid://cq3fj6tr2hcl0" path="res://LevelSwitchings/prompt.gd" id="1_k11vl"]
 
 [sub_resource type="Gradient" id="Gradient_7fpl0"]
 offsets = PackedFloat32Array(0, 0.47530866, 0.99382716, 1)
@@ -23,3 +23,13 @@ texture = SubResource("GradientTexture1D_k11vl")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-16, -21.5)
 shape = SubResource("RectangleShape2D_p7nac")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -93.0
+offset_top = -66.0
+offset_right = 67.0
+offset_bottom = -43.0
+text = "Press F to Next Level"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

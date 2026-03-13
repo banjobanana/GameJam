@@ -9,6 +9,7 @@ const AIRACCELARATION = 15
 const AIRDECELARATION = 20
 const AIRMOVESPEEDMULT = 0.6
 const DASHSPEED = 500
+const KNOCKBACKSPEED = 250
 
 const JUMPVELOCITY = -140
 const GRAVITYJUMP = 290
@@ -29,6 +30,7 @@ const DASHAGAINTIME = 0.2
 const DASHTIME = 0.1
 const ATTACKTIME = 0.3#how long attack lasts
 const ATTACKAGAINTIME = 0.2 #tiem between attacks
+const IFRAMETIME = 0.2
 
 const WALLKICKACCELARATION = 4
 const WALLKICKDECELARATION = 5
@@ -45,6 +47,7 @@ var moveDirectionX=0
 var jumps=0 #number of jumps done
 var facing=1
 var wallDirection = Vector2.ZERO
+var DmgDir
 
 var lives=MAXLIVES
 var health = MAXHEALTH
@@ -79,6 +82,7 @@ var keyAttackPressed=false
 @onready var dash_timer: Timer = $Timer/DashTimer
 @onready var attack_again_timer: Timer = $Timer/AttackAgainTimer
 @onready var attack_timer: Timer = $Timer/AttackTimer
+@onready var i_frame_timer: Timer = $Timer/IFrameTimer
 
 #StateMachine
 var currentState = null
@@ -238,6 +242,9 @@ func Die():
 
 func TakeDamage(dmg: int, dmgDir):
 	health-=dmg
+	DmgDir=dmgDir
+	i_frame_timer.start(IFRAMETIME)
+	ChangeState(States.Hurt)
 	#velocity.x = 500 * -1 * dmgDir 
 	print(health)
 	if health<=0:

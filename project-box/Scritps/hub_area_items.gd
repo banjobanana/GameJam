@@ -1,4 +1,4 @@
-extends Node2D
+extends LevelStats
 
 var rng = RandomNumberGenerator.new()
 var file = FileAccess.open("user://seed.dat",FileAccess.READ)
@@ -9,6 +9,7 @@ var file = FileAccess.open("user://seed.dat",FileAccess.READ)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Hub = true
 	rng.seed = file.get_64()
 
 func RandomizeItems():
