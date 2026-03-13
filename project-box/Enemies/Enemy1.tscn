@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bv4q84pjo3akd"]
 
-[ext_resource type="Script" uid="uid://dc7sljvcnsbc3" path="res://Scritps/enemylungeing.gd" id="1_ayfk5"]
+[ext_resource type="Script" uid="uid://dc7sljvcnsbc3" path="res://Enemies/Scripts/Enemy1.gd" id="1_ayfk5"]
 [ext_resource type="Texture2D" uid="uid://c13k62vruohf0" path="res://icon.svg" id="1_mt7ek"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ayfk5"]

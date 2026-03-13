@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d01t6d7gu5yrp" path="res://Scenes/player.tscn" id="4_5gs0m"]
 [ext_resource type="Texture2D" uid="uid://ycgbhmit6iof" path="res://Assets/Tiles 16x16.png" id="5_7awrg"]
 [ext_resource type="PackedScene" uid="uid://ymwffwt7boe1" path="res://Scenes/kill_zone.tscn" id="6_whu7g"]
-[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://Scenes/LevelProgressor.tscn" id="7_76xmc"]
+[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://LevelSwitchings/LevelProgressor.tscn" id="7_76xmc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_epypp"]
 texture = ExtResource("5_7awrg")

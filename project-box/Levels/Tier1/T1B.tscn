@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://d01t6d7gu5yrp" path="res://Scenes/player.tscn" id="3_re7xc"]
 [ext_resource type="Texture2D" uid="uid://ycgbhmit6iof" path="res://Assets/Tiles 16x16.png" id="4_pb747"]
 [ext_resource type="Script" uid="uid://c0o4meotk16f4" path="res://LevelSwitchings/level_manager.gd" id="5_pgwwd"]
-[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://Scenes/LevelProgressor.tscn" id="7_2fkyd"]
-[ext_resource type="PackedScene" uid="uid://bv4q84pjo3akd" path="res://Scenes/Enemy1.tscn" id="7_mi82c"]
+[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://LevelSwitchings/LevelProgressor.tscn" id="7_2fkyd"]
+[ext_resource type="PackedScene" uid="uid://bv4q84pjo3akd" path="res://Enemies/Enemy1.tscn" id="7_mi82c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1rkxm"]
 texture = ExtResource("4_pb747")

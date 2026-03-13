@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=4 uid="uid://bsohn1jg73ao4"]
 
 [ext_resource type="Texture2D" uid="uid://co7ktbmdpyr1u" path="res://Assets/bk.png" id="1_4isnm"]
-[ext_resource type="Script" uid="uid://cm05dkl25xynu" path="res://Scritps/hub_area_items.gd" id="1_bb3jh"]
+[ext_resource type="Script" uid="uid://cm05dkl25xynu" path="res://Levels/LevelStats/HubAreaStats.gd" id="1_bb3jh"]
 [ext_resource type="PackedScene" uid="uid://d01t6d7gu5yrp" path="res://Scenes/player.tscn" id="2_ocdov"]
 [ext_resource type="Script" uid="uid://c0o4meotk16f4" path="res://LevelSwitchings/level_manager.gd" id="2_qtsrj"]
 [ext_resource type="Texture2D" uid="uid://ycgbhmit6iof" path="res://Assets/Tiles 16x16.png" id="3_bb3jh"]
-[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://Scenes/LevelProgressor.tscn" id="4_ocdov"]
+[ext_resource type="PackedScene" uid="uid://t83gl8bm3goh" path="res://LevelSwitchings/LevelProgressor.tscn" id="4_ocdov"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4nbo5"]
 texture = ExtResource("3_bb3jh")

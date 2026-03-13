@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1ot2hhmr025q"]
 
-[ext_resource type="Script" uid="uid://bdi0qi1bnh8lc" path="res://Scritps/node.gd" id="1_l6lyr"]
+[ext_resource type="Script" uid="uid://bdi0qi1bnh8lc" path="res://Levels/LevelStats/T1CStats.gd" id="1_l6lyr"]
 
 [node name="Node2D" type="Node2D"]
 

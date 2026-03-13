@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dqxggofe5dngf"]
 
-[ext_resource type="Script" uid="uid://tbyqhll4dgp" path="res://Scritps/RoomListGenerator.gd" id="1_vccrp"]
+[ext_resource type="Script" uid="uid://tbyqhll4dgp" path="res://MapGeneration/RoomListGenerator.gd" id="1_vccrp"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_vccrp")

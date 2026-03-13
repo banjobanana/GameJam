@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func Spawned():
-	Maxhealth=100
+	Maxhealth=20
 	Name="TestDummy"
 	CurrentHealth=Maxhealth
 
