@@ -23,6 +23,15 @@ target_position = Vector2(20, 0)
 rotation = 3.1415927
 target_position = Vector2(20, 0)
 
+[node name="RCEdgeDetection" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)
+collision_mask = 8
+
+[node name="RCEdgeDetection2" type="RayCast2D" parent="."]
+rotation = 3.1415927
+target_position = Vector2(20, 0)
+collision_mask = 8
+
 [node name="AttackCDTimer" type="Timer" parent="."]
 wait_time = 0.8
 one_shot = true

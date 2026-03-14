@@ -6,14 +6,14 @@ var rng = RandomNumberGenerator.new()
 
 
 func _ready() -> void:
-	rng.seed=hash("19")
+	#rng.seed=hash("19")
 	pass
 
 func _on_button_button_down() -> void:
 	
 	#ONLY SET SEED HERE, WHEN SEED IS SET RNG STATE IS RESET
 	
-	var prehashed = str(randi() % 100)#random seed gen if no seed is entered
+	var prehashed = str(randi() % 1000)#random seed gen if no seed is entered
 	
 	#setting seed of rng machine based on input
 	if line_edit.text!="":

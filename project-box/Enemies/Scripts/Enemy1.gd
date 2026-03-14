@@ -11,10 +11,14 @@ const MOVESPEED = 400
 
 @onready var rc_right: RayCast2D = $RayCast2D2
 @onready var rc_left: RayCast2D = $RayCast2D3
+@onready var rc_edge_detection: RayCast2D = $RCEdgeDetection
+@onready var rc_edge_detection_2: RayCast2D = $RCEdgeDetection2
+
 @onready var timer: Timer = $AttackCDTimer
 @onready var timer_left: Timer = $TimerLeft
 @onready var timer_right: Timer = $TimerRight
 @onready var charge_timer: Timer = $ChargeTimer
+
 @onready var level_root: Node2D = $".."
 @onready var level_manager: Node = %LevelManager
 
@@ -62,15 +66,14 @@ func TakeDamage(DmgAmt):
 	CurrentHealth-=DmgAmt
 	velocity.x = direction * SPEED * -1
 	#print(CurrentHealth)
-	Die()
+	if CurrentHealth<=0:
+		Die()
 
 func Die():
 	#print("dead")
-	if CurrentHealth<=0:
-		#print("dead")
-		level_manager.enemyKilled += 1
-		level_manager.EnemyCleared()
-		queue_free()
+	level_manager.enemyKilled += 1
+	level_manager.EnemyCleared()
+	queue_free()
 
 func Aggrod():
 	var newplayerPos #player position at time of attacking
@@ -96,9 +99,9 @@ func Aggrod():
 					rc_left.get_collider().TakeDamage(5,direction)
 
 func Patrolling(_delta):
-	if rc_left.get_collider()!=null:
+	if rc_left.get_collider()!=null or rc_edge_detection_2.get_collider()!=null:
 		direction=1
-	elif rc_right.get_collider()!=null:
+	elif rc_right.get_collider()!=null or rc_edge_detection.get_collider()!=null:
 		direction=-1
 	velocity.x = direction * MOVESPEED * _delta
 
