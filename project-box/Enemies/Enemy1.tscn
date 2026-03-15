@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bv4q84pjo3akd"]
+[gd_scene load_steps=6 format=3 uid="uid://bv4q84pjo3akd"]
 
 [ext_resource type="Script" uid="uid://dc7sljvcnsbc3" path="res://Enemies/Scripts/Enemy1.gd" id="1_ayfk5"]
 [ext_resource type="Texture2D" uid="uid://c13k62vruohf0" path="res://icon.svg" id="1_mt7ek"]
+[ext_resource type="PackedScene" uid="uid://ymwffwt7boe1" path="res://Scenes/kill_zone.tscn" id="3_t1fru"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ayfk5"]
 size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgmyh"]
+size = Vector2(14, 14)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ayfk5")
@@ -44,5 +48,10 @@ one_shot = true
 
 [node name="ChargeTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="KillZone" parent="." instance=ExtResource("3_t1fru")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+shape = SubResource("RectangleShape2D_jgmyh")
 
 [connection signal="timeout" from="ChargeTimer" to="." method="_on_charge_timer_timeout"]

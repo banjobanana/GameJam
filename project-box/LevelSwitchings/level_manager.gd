@@ -17,6 +17,7 @@ var playerprogress = playerprogressfile.get_64()
 var IsLevelCompleted: bool = false
 var enemyCount
 var enemyKilled=0
+var wavesCompleted = 0
 
 func _ready() -> void:
 	rng.seed = seedfile.get_64()

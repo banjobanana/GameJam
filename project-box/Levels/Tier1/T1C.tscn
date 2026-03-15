@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://c1ot2hhmr025q"]
+[gd_scene load_steps=21 format=4 uid="uid://c1ot2hhmr025q"]
 
 [ext_resource type="Script" uid="uid://bdi0qi1bnh8lc" path="res://Levels/LevelStats/T1CStats.gd" id="1_l6lyr"]
 [ext_resource type="Script" uid="uid://c0o4meotk16f4" path="res://LevelSwitchings/level_manager.gd" id="1_scug3"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ymwffwt7boe1" path="res://Scenes/kill_zone.tscn" id="7_soo1m"]
 [ext_resource type="Texture2D" uid="uid://doujeg5al88yo" path="res://Assets/HazardousWater2D.png" id="8_yh42r"]
 [ext_resource type="PackedScene" uid="uid://bv4q84pjo3akd" path="res://Enemies/Enemy1.tscn" id="9_3i54i"]
+[ext_resource type="PackedScene" uid="uid://c1ecpttt5panf" path="res://enemy_kill_zone.tscn" id="10_yh42r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3i54i"]
 texture = ExtResource("5_soo1m")
@@ -176,6 +177,9 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_soo1m"]
 size = Vector2(20, 256)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3i54i"]
+size = Vector2(992, 29)
 
 [node name="LevelRoot" type="Node2D"]
 script = ExtResource("1_l6lyr")
@@ -360,5 +364,12 @@ position = Vector2(858, 246)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelCompleteMarker"]
 position = Vector2(0, -118)
 shape = SubResource("RectangleShape2D_soo1m")
+
+[node name="EnemyKillZone" parent="." instance=ExtResource("10_yh42r")]
+position = Vector2(15, 576)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyKillZone"]
+position = Vector2(497, 17.5)
+shape = SubResource("RectangleShape2D_3i54i")
 
 [connection signal="body_entered" from="LevelCompleteMarker" to="LevelManager" method="_on_level_complete_marker_body_entered"]

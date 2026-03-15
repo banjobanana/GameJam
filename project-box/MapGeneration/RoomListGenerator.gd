@@ -1,6 +1,6 @@
 extends Node
 
-var t1rooms = ["res://Levels/Tier1/T1A.tscn","res://Levels/Tier1/T1B.tscn","res://Levels/Tier1/T1C.tscn","res://Levels/Tier1/T1D.tscn"]
+var t1rooms = ["res://Levels/Tier1/T1A.tscn","res://Levels/Tier1/T1B.tscn","res://Levels/Tier1/T1C.tscn","res://Levels/Tier1/T1D.tscn","res://Levels/Tier1/T1E.tscn"]
 var t1size=4
 var t1picked = []
 var t2rooms = []

@@ -13,7 +13,7 @@ var roomlist
 func _ready() -> void:
 	pass 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if overlaps_body(player):
 		if Input.is_action_just_pressed("Interact"):
 			#level_manager.playerprogress+=1

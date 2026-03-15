@@ -9,6 +9,10 @@ const SPEED = 1700.0
 const JUMP_VELOCITY = -40.0
 const MOVESPEED = 400
 
+var speed = SPEED
+var jump_power = JUMP_VELOCITY
+var movespeed = MOVESPEED
+
 @onready var rc_right: RayCast2D = $RayCast2D2
 @onready var rc_left: RayCast2D = $RayCast2D3
 @onready var rc_edge_detection: RayCast2D = $RCEdgeDetection
@@ -19,7 +23,7 @@ const MOVESPEED = 400
 @onready var timer_right: Timer = $TimerRight
 @onready var charge_timer: Timer = $ChargeTimer
 
-@onready var level_root: Node2D = $".."
+@onready var level_root: Node = $".."
 @onready var level_manager: Node = %LevelManager
 
 func _ready() -> void:
@@ -45,16 +49,16 @@ func _physics_process(delta: float) -> void:
 			playerPos=rc_left.get_collider().position
 			#print("Player detected")
 	else:
-		idle=true #patrolling
-	
+		idle = true # patrolliong
+	#if !charge_timer.is_stopped():
+		#idle=false
+
 	if idle:
 		Patrolling(delta) 
 	else:
 		if charge_timer.is_stopped():
 			charge_timer.start() #Charge attack
-			velocity.x=move_toward(velocity.x,0,MOVESPEED)
-		#Aggrod()
-		idle=false
+			velocity.x=move_toward(velocity.x,0,movespeed)
 	move_and_slide()
 
 func Spawned():
@@ -64,7 +68,7 @@ func Spawned():
 
 func TakeDamage(DmgAmt):
 	CurrentHealth-=DmgAmt
-	velocity.x = direction * SPEED * -1
+	velocity.x = direction * speed * -1
 	#print(CurrentHealth)
 	if CurrentHealth<=0:
 		Die()
@@ -76,34 +80,35 @@ func Die():
 	queue_free()
 
 func Aggrod():
-	var newplayerPos #player position at time of attacking
+	#var newplayerPos #player position at time of attacking
 	
 	#checking if attack is on cooldown i.e already attacke beofre
 	if !timer.time_left>0:
-		velocity.x = direction * SPEED 
-		velocity.y = JUMP_VELOCITY
+		velocity.x = direction * speed 
+		velocity.y = jump_power
 		timer.start() #attack cooldown
 		
 		#checking if player has not dodged attack
-		if rc_right.get_collider()!=null:
-			if rc_right.get_collider().name=="Player":
-				newplayerPos=rc_right.get_collider().position
-				if newplayerPos == playerPos: #match playerpos b4 and after attack if same then not dodged
-					print("GetHurt")
-					rc_right.get_collider().TakeDamage(5,direction)
-		elif rc_left.get_collider()!=null:
-			if rc_left.get_collider().name=="Player":
-				newplayerPos=rc_left.get_collider().position
-				if newplayerPos == playerPos:
-					print("GetHurt")
-					rc_left.get_collider().TakeDamage(5,direction)
+		#actual dmaging the player
+		#if rc_right.get_collider()!=null:
+			#if rc_right.get_collider().name=="Player":
+				#newplayerPos=rc_right.get_collider().position
+				#if newplayerPos == playerPos: #match playerpos b4 and after attack if same then not dodged
+					#print("From Enemy: GetHurt")
+					#rc_right.get_collider().TakeDamage(5,direction)
+		#elif rc_left.get_collider()!=null:
+			#if rc_left.get_collider().name=="Player":
+				#newplayerPos=rc_left.get_collider().position
+				#if newplayerPos == playerPos:
+					#print("From Enemy: GetHurt")
+					#rc_left.get_collider().TakeDamage(5,direction)
 
 func Patrolling(_delta):
 	if rc_left.get_collider()!=null or rc_edge_detection_2.get_collider()!=null:
 		direction=1
 	elif rc_right.get_collider()!=null or rc_edge_detection.get_collider()!=null:
 		direction=-1
-	velocity.x = direction * MOVESPEED * _delta
+	velocity.x = direction * movespeed * _delta
 
 func DealDamage():
 	pass

@@ -1,13 +1,7 @@
 extends Area2D
-
-@onready var player: player_class = %Player
-
+@onready var character_body_2d: CharacterBody2D = $".."
 func _on_body_entered(body: Node2D) -> void:
-	#print(body)
-	if body is Enemy:
-		body.Die()
-
 	if body.name == "Player":
-		body.Respawn()
+		body.TakeDamage(5,character_body_2d.direction)
 		print("Player should take damage and respawn at stable ground")
 		#body.Die() # Replace with function body.

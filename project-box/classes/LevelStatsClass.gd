@@ -9,6 +9,7 @@ var Tutorial: bool = false
 var Parkour: bool = false
 var Combat: bool = false
 var Platformed: bool = false
+var MultWaves: bool = false
 func EnterLevel():
 	pass
 

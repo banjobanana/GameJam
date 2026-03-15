@@ -30,6 +30,7 @@ func Update(_delta):
 
 func GetEnemyCollider() -> Enemy:
 	var enemyCollider
+	#print(primaryCollider.get_collider())
 	if primaryCollider.get_collider()!=null and primaryCollider.get_collider() is Enemy:
 		enemyCollider = primaryCollider.get_collider()
 	return enemyCollider
