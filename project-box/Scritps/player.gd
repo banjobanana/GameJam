@@ -235,12 +235,17 @@ func HandleFlipH():
 
 
 func Die():
-	lives-=1
-	if lives==0:
-		level_manager.GameOver()
-	else:
-		level_manager.Restart()
+	if health<=0:
+		lives-=1
+		if lives==0:
+			level_manager.GameOver()
+		else:
+			level_manager.Restart()
 
+func TakeDamageEnvironment(dmg: int):
+	health-=dmg
+	Die()
+	
 func TakeDamage(dmg: int, dmgDir):
 	health-=dmg
 	DmgDir=dmgDir
@@ -248,8 +253,7 @@ func TakeDamage(dmg: int, dmgDir):
 	ChangeState(States.Hurt)
 	#velocity.x = 500 * -1 * dmgDir 
 	print(health)
-	if health<=0:
-		Die()
+	Die()
 
 func Heal(heal: int):
 	if health+heal > MAXHEALTH:
