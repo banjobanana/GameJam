@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://mwvhs2yf7nba"]
+[gd_scene load_steps=4 format=3 uid="uid://mwvhs2yf7nba"]
 
 [ext_resource type="Script" uid="uid://dcvkdkot7wlnq" path="res://MapGeneration/seed_generator_mainmenu.gd" id="1_28flt"]
 [ext_resource type="Script" uid="uid://qnmdnqiuimeo" path="res://LevelSwitchings/GoToTutorial.gd" id="2_48xlc"]
+[ext_resource type="PackedScene" uid="uid://cno6vh3l40mlu" path="res://Scenes/audio_stream_player.tscn" id="3_1ehe0"]
 
 [node name="Seed Generator Menu" type="Node2D"]
 script = ExtResource("1_28flt")
@@ -35,6 +36,9 @@ offset_right = 696.0
 offset_bottom = 480.0
 text = "Tutorial"
 script = ExtResource("2_48xlc")
+
+[node name="AudioStreamPlayer" parent="." instance=ExtResource("3_1ehe0")]
+autoplay = true
 
 [connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
 [connection signal="button_down" from="Button2" to="Button2" method="_on_button_down"]

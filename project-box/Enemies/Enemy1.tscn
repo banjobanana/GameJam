@@ -1,23 +1,85 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv4q84pjo3akd"]
+[gd_scene load_steps=13 format=3 uid="uid://bv4q84pjo3akd"]
 
 [ext_resource type="Script" uid="uid://dc7sljvcnsbc3" path="res://Enemies/Scripts/Enemy1.gd" id="1_ayfk5"]
-[ext_resource type="Texture2D" uid="uid://c13k62vruohf0" path="res://icon.svg" id="1_mt7ek"]
-[ext_resource type="PackedScene" uid="uid://ymwffwt7boe1" path="res://Scenes/kill_zone.tscn" id="3_t1fru"]
+[ext_resource type="Texture2D" uid="uid://b8tv32clhfsax" path="res://Assets/Stage1/Zombie.png" id="2_jgmyh"]
+[ext_resource type="Script" uid="uid://iiloq6mqt5t3" path="res://Enemies/EnemyKillZone.gd" id="5_se8eh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgmyh"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3ny3"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_se8eh"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g5x4"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2y2af"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pypnh"]
+atlas = ExtResource("2_jgmyh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j3ny3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgmyh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3ny3")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_se8eh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g5x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2y2af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pypnh")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ayfk5"]
-size = Vector2(12, 12)
+size = Vector2(18, 29)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgmyh"]
-size = Vector2(14, 14)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0g5x4"]
+size = Vector2(20, 29)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_ayfk5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_mt7ek")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_j3ny3")
+animation = &"jump"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1.5)
 shape = SubResource("RectangleShape2D_ayfk5")
 
 [node name="RayCast2D2" type="RayCast2D" parent="."]
@@ -49,9 +111,12 @@ one_shot = true
 [node name="ChargeTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="KillZone" parent="." instance=ExtResource("3_t1fru")]
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("5_se8eh")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
-shape = SubResource("RectangleShape2D_jgmyh")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -2.5)
+shape = SubResource("RectangleShape2D_0g5x4")
 
 [connection signal="timeout" from="ChargeTimer" to="." method="_on_charge_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

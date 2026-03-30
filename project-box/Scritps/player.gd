@@ -244,6 +244,7 @@ func Die():
 
 func TakeDamageEnvironment(dmg: int):
 	health-=dmg
+	level_manager.Restart()
 	Die()
 	
 func TakeDamage(dmg: int, dmgDir):

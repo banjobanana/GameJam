@@ -13,7 +13,7 @@ var file = FileAccess.open("user://seed.dat",FileAccess.READ)
 
 var playerProgress=0
 var roomlist=[]
-var mapValue=40
+var mapValue=30
 
 func _ready() -> void:
 	rng.seed = file.get_64()
@@ -40,7 +40,7 @@ func _ready() -> void:
 					roomlist.append(t2rooms[room])
 					t2rooms.append(room)
 					mapValue-=20
-	roomlist.append("res://Levels/Tier1/T1Boss.tscn")
+	#roomlist.append("res://Levels/Tier1/EndScreen.tscn")
 	roomlist.append("res://Scenes/main_menu.tscn")
 	print("Roomlist: ",roomlist)
 	#print("Progress in Loader: ",playerProgress)

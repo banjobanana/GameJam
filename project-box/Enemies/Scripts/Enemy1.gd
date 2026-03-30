@@ -17,6 +17,7 @@ var movespeed = MOVESPEED
 @onready var rc_left: RayCast2D = $RayCast2D3
 @onready var rc_edge_detection: RayCast2D = $RCEdgeDetection
 @onready var rc_edge_detection_2: RayCast2D = $RCEdgeDetection2
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 @onready var timer: Timer = $AttackCDTimer
 @onready var timer_left: Timer = $TimerLeft
@@ -40,12 +41,14 @@ func _physics_process(delta: float) -> void:
 		if rc_right.get_collider().name=="Player":
 			idle=false #aggrod
 			direction=1
+			animated_sprite_2d.flip_h=true
 			playerPos=rc_right.get_collider().position
 			#print("Player detected")
 	elif rc_left.get_collider()!=null:
 		if rc_left.get_collider().name=="Player":
 			idle=false #aggrod
 			direction=-1
+			animated_sprite_2d.flip_h=false
 			playerPos=rc_left.get_collider().position
 			#print("Player detected")
 	else:
@@ -58,6 +61,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		if charge_timer.is_stopped():
 			charge_timer.start() #Charge attack
+			animated_sprite_2d.play("idle")
 			velocity.x=move_toward(velocity.x,0,movespeed)
 	move_and_slide()
 
@@ -81,7 +85,7 @@ func Die():
 
 func Aggrod():
 	#var newplayerPos #player position at time of attacking
-	
+	animated_sprite_2d.play("jump")
 	#checking if attack is on cooldown i.e already attacke beofre
 	if !timer.time_left>0:
 		velocity.x = direction * speed 
@@ -104,6 +108,7 @@ func Aggrod():
 					#rc_left.get_collider().TakeDamage(5,direction)
 
 func Patrolling(_delta):
+	animated_sprite_2d.play("run")
 	if rc_left.get_collider()!=null or rc_edge_detection_2.get_collider()!=null:
 		direction=1
 	elif rc_right.get_collider()!=null or rc_edge_detection.get_collider()!=null:
