@@ -3,10 +3,8 @@ extends LevelStats
 var totalEnemies = 6
 
 func EnterLevel():
-	Combat = true
-	MultWaves = true
-	Spawnpoint = Vector2(578,484)
-	EndPoint = Vector2(608,544)
+	Spawnpoint = Vector2(885,524) 
+	EndPoint = Vector2(945,126)
 	#REWARDLIST AND PROBABILITIES MUST BE OF SAME SIZE!!!
 	RewardList = ["NewWeapon","Artifact"]#possible rewards
 	Probabilties = [1,1]#rarity of corresponding index reward in rewardlist
